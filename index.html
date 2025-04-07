@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Creator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&family=Playfair+Display:wght@400;700&family=Oswald:wght@400;700&family=Dancing+Script:wght@400;700&family=Lobster:wght@400;700&family=Pacifico:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>Logo Creator</h1>
+        <p>Crea logos profesionales para tu marca</p>
+    </div>
+
+    <div class="container">
+        <div class="preview-section">
+            <div id="logoCapture">
+                <div class="logo-preview" id="logoPreview">
+                    <div id="backgroundLayer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 1;"></div>
+                    <i class="fas fa-star" style="font-size: 48px; color: white; position: relative; z-index: 1;"></i>
+                    <div id="logoText" style="color: white; font-size: 24px; margin-top: 10px; text-align: center; position: relative; z-index: 1;">
+                        Mi Logo
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-section">
+            <div class="control-group">
+                <h3>Forma del Logo</h3>
+                <div class="shape-picker">
+                    <div class="shape-option square selected" onclick="changeShape('square')"></div>
+                    <div class="shape-option circle" onclick="changeShape('circle')"></div>
+                    <div class="shape-option rounded" onclick="changeShape('rounded')"></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Texto</h3>
+                <div class="input-group">
+                    <label>Texto Principal</label>
+                    <input type="text" id="mainText" value="Mi Logo" oninput="updateLogo()">
+                </div>
+                <div class="input-group">
+                    <label>Tamaño del Texto</label>
+                    <input type="number" id="textSize" value="24" min="12" max="72" oninput="updateLogo()">
+                </div>
+                <div class="input-group">
+                    <label>Fuente</label>
+                    <select id="fontSelect" onchange="updateLogo()">
+                        <option value="Montserrat">Montserrat</option>
+                        <option value="Poppins">Poppins</option>
+                        <option value="Roboto">Roboto</option>
+                        <option value="Playfair Display">Playfair Display</option>
+                        <option value="Oswald">Oswald</option>
+                        <option value="Dancing Script">Dancing Script</option>
+                        <option value="Lobster">Lobster</option>
+                        <option value="Pacifico">Pacifico</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Color del Texto</label>
+                    <input type="color" id="textColor" value="#ffffff" oninput="updateLogo()">
+                </div>
+                <div class="input-group">
+                    <label>Efectos de Texto</label>
+                    <div class="text-effects">
+                        <button onclick="toggleTextEffect('bold')">Negrita</button>
+                        <button onclick="toggleTextEffect('italic')">Cursiva</button>
+                        <button onclick="toggleTextEffect('uppercase')">Mayúsculas</button>
+                        <button onclick="toggleTextEffect('shadow')">Sombra</button>
+                        <button onclick="toggleTextEffect('3d')">3D</button>
+                        <button onclick="toggleTextEffect('outline')">Contorno</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Imagen de Fondo</h3>
+                <div class="input-group">
+                    <label>Subir Imagen</label>
+                    <input type="file" id="backgroundImage" accept="image/*" onchange="handleImageUpload(event)">
+                </div>
+                <div class="input-group">
+                    <label>Opacidad de la Imagen</label>
+                    <input type="range" id="backgroundOpacity" min="0" max="1" step="0.1" value="1" oninput="updateBackgroundOpacity()">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Íconos</h3>
+                <div class="icon-picker">
+                    <div class="icon-option" onclick="selectIcon('fa-star')"><i class="fas fa-star"></i></div>
+                    <div class="icon-option" onclick="selectIcon('fa-heart')"><i class="fas fa-heart"></i></div>
+                    <div class="icon-option" onclick="selectIcon('fa-crown')"><i class="fas fa-crown"></i></div>
+                    <div class="icon-option" onclick="selectIcon('fa-gem')"><i class="fas fa-gem"></i></div>
+                    <div class="icon-option" onclick="selectIcon('fa-bolt')"><i class="fas fa-bolt"></i></div>
+                    <div class="icon-option" onclick="selectIcon('fa-fire')"><i class="fas fa-fire"></i></div>
+                    <div class="icon-option" onclick="selectIcon('fa-rocket')"><i class="fas fa-rocket"></i></div>
+                    <div class="icon-option" onclick="selectIcon('fa-leaf')"><i class="fas fa-leaf"></i></div>
+                    <div class="icon-option" onclick="selectIcon('fa-graduation-cap')"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="icon-option" onclick="selectIcon('fa-coffee')"><i class="fas fa-coffee"></i></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Colores</h3>
+                <div class="color-picker">
+                    <div class="color-option" style="background: linear-gradient(45deg, #833AB4, #C13584, #E1306C);" onclick="selectBackground('gradient1')"></div>
+                    <div class="color-option" style="background: linear-gradient(45deg, #405DE6, #5B51D8);" onclick="selectBackground('gradient2')"></div>
+                    <div class="color-option" style="background: linear-gradient(45deg, #11998e, #38ef7d);" onclick="selectBackground('gradient3')"></div>
+                    <div class="color-option" style="background: #000000;" onclick="selectBackground('solid1')"></div>
+                    <div class="color-option" style="background: #E1306C;" onclick="selectBackground('solid2')"></div>
+                    <div class="color-option" style="background: #4A90E2;" onclick="selectBackground('solid3')"></div>
+                    <div class="color-option" style="background: #FFC107;" onclick="selectBackground('solid4')"></div>
+                    <div class="color-option" style="background: #26A69A;" onclick="selectBackground('solid5')"></div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-download" onclick="downloadLogo()">
+                    <i class="fas fa-download"></i> Descargar Logo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading" id="loadingIndicator">
+        <div>
+            <i class="fas fa-spinner fa-spin" style="font-size: 2em; margin-right: 10px;"></i>
+            Procesando...
+        </div>
+    </div>
+
+    <script>
+        let currentIcon = 'fa-star';
+        let currentBackground = 'gradient1';
+        let currentShape = 'square';
+        let textEffects = {
+            bold: false,
+            italic: false,
+            uppercase: false,
+            shadow: false,
+            '3d': false,
+            outline: false
+        };
+
+        function updateLogo() {
+            const logoText = document.getElementById('logoText');
+            const mainText = document.getElementById('mainText').value;
+            const textSize = document.getElementById('textSize').value;
+            const font = document.getElementById('fontSelect').value;
+            const textColor = document.getElementById('textColor').value;
+
+            let textStyle = `font-size: ${textSize}px; font-family: ${font}; color: ${textColor}; text-align: center; position: relative; z-index: 1;`;
+            if (textEffects.bold) textStyle += ' font-weight: bold;';
+            if (textEffects.italic) textStyle += ' font-style: italic;';
+            if (textEffects.uppercase) textStyle += ' text-transform: uppercase;';
+            if (textEffects.shadow) textStyle += ' text-shadow: 2px 2px 4px rgba(0,0,0,0.5);';
+            if (textEffects['3d']) textStyle += ' text-shadow: 1px 1px 0 #000, 2px 2px 0 #000, 3px 3px 0 #000;';
+            if (textEffects.outline) textStyle += ' -webkit-text-stroke: 1px black;';
+
+            logoText.style = textStyle;
+            logoText.textContent = mainText;
+        }
+
+        function changeShape(shape) {
+            const preview = document.getElementById('logoPreview');
+            const shapes = document.querySelectorAll('.shape-option');
+            
+            shapes.forEach(s => s.classList.remove('selected'));
+            document.querySelector(`.shape-option.${shape}`).classList.add('selected');
+
+            preview.className = 'logo-preview';
+            if (shape === 'circle') {
+                preview.classList.add('circle');
+            } else if (shape === 'rounded') {
+                preview.classList.add('rounded');
+            }
+            currentShape = shape;
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const backgroundLayer = document.getElementById('backgroundLayer');
+                    backgroundLayer.style.backgroundImage = `url(${e.target.result})`;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateBackgroundOpacity() {
+            const opacity = document.getElementById('backgroundOpacity').value;
+            const backgroundLayer = document.getElementById('backgroundLayer');
+            backgroundLayer.style.opacity = opacity;
+        }
+
+        function selectIcon(icon) {
+            currentIcon = icon;
+            updateLogo();
+        }
+
+        function selectBackground(style) {
+            const backgroundLayer = document.getElementById('backgroundLayer');
+            backgroundLayer.style.backgroundImage = 'none';
+            backgroundLayer.style.opacity = 1;
+            
+            switch(style) {
+                case 'gradient1':
+                    backgroundLayer.style.background = 'linear-gradient(45deg, #833AB4, #C13584, #E1306C)';
+                    break;
+                case 'gradient2':
+                    backgroundLayer.style.background = 'linear-gradient(45deg, #405DE6, #5B51D8)';
+                    break;
+                case 'gradient3':
+                    backgroundLayer.style.background = 'linear-gradient(45deg, #11998e, #38ef7d)';
+                    break;
+                case 'solid1':
+                    backgroundLayer.style.background = '#000000';
+                    break;
+                case 'solid2':
+                    backgroundLayer.style.background = '#E1306C';
+                    break;
+                case 'solid3':
+                    backgroundLayer.style.background = '#4A90E2';
+                    break;
+                case 'solid4':
+                    backgroundLayer.style.background = '#FFC107';
+                    break;
+                case 'solid5':
+                    backgroundLayer.style.background = '#26A69A';
+                    break;
+            }
+        }
+
+        function toggleTextEffect(effect) {
+            textEffects[effect] = !textEffects[effect];
+            updateLogo();
+        }
+
+        async function downloadLogo() {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            loadingIndicator.classList.add('active');
+
+            try {
+                const element = document.getElementById('logoCapture');
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: null
+                });
+
+                const imageURL = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = 'mi-logo.png';
+                link.href = imageURL;
+                link.click();
+            } catch (err) {
+                console.error('Error al generar la imagen:', err);
+                alert('Hubo un error al generar la imagen. Por favor, intenta de nuevo.');
+            } finally {
+                loadingIndicator.classList.remove('active');
+            }
+        }
+
+        // Inicialización
+        updateLogo();
+    </script>
+</body>
+</html>
